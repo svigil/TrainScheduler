@@ -66,36 +66,57 @@ var config = {
     var trainStart = childSnapshot.val().start;
     var trainFreq = childSnapshot.val().freq;
   
-    // Employee Info
+    // Train Info
     console.log(trainName);
     console.log(trainDest);
     console.log(trainStart);
     console.log(trainFreq);
   
+  
+    // Set freq
+    var tFrequency = trainFreq;
+    console.log(tFrequency);
+  
+   // Set time
+   var firstTime = "03:30";
+  
 
+    // // First Time (pushed back 1 year to make sure it comes before current time)
+    var firstTimeConverted = moment(firstTime, "HH:mm").subtract(1, "years");
+    console.log(firstTimeConverted);
+
+    // Current Time
+    var currentTime = moment();
     
-    // Prettify the employee start
-    //var empStartPretty = moment(empStart,"MM/DD/YYYY");
-  
-    // Calculate the months worked using hardcore math
-    // To calculate the months worked
-    //////// var empMonths = moment().diff(moment(empStart, "X"), "months");
-    // console.log(empMonths);
-  
-    // // Calculate the total billed rate
-    // var empBilled = empMonths * empRate;
-    // console.log(empBilled);
-  
-  ///////// var monthsWorked = moment().diff(moment(child.empStart, "MM/DD/YYYY"), "months");
+    console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+
+    // Difference between the times
+    var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+    console.log("DIFFERENCE IN TIME: " + diffTime);
+
+    // Time apart (remainder)
+    var tRemainder = diffTime % tFrequency;
+    console.log(tRemainder);
+
+    // Minute Until Train
+    var tMinutesTillTrain = tFrequency - tRemainder;
+    console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+
+    // Next Train
+    var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+    console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+
+    moment(nextTrain).format("hh:mm");
+    
+    console.log(nextTrain);
   
     // Create the new row
     var newRow = $("<tr>").append(
       $("<td>").text(trainName),
       $("<td>").text(trainDest),
-      $("<td>").text(trainStart),
       $("<td>").text(trainFreq),
-    //   $("<td>").text(empRate),
-    //   $("<td>").text(empBilled)
+      $("<td>").text(nextTrain),
+      $("<td>").text(tRemainder),
     );
   
     // Append the new row to the table
